@@ -73,15 +73,9 @@ graph TB
 
 ---
 
-## 2. Visual Architecture Concept
 
-Below is a generated visual concept mockup of the microservices system topology, showing the connection between the React Client, backend APIs, shared message queues, caching layers, and database clusters.
 
-![Architectural topology mockup showing microservices connections, caching nodes, RabbitMQ broker, and databases.](C:/Users/omkas/.gemini/antigravity/brain/3213ca11-dcb5-4a53-bd8f-e4626b7a78f4/architecture_diagram_1782562143650.png)
-
----
-
-## 3. Microservice Specifications
+## 2. Microservice Specifications
 
 ### [Auth Service](file:///C:/Users/omkas/Desktop/placement/hospital%20Queue%20Management/Backend/auth-service)
 - **Role**: Identity Provider & Session Manager.
@@ -99,7 +93,7 @@ Below is a generated visual concept mockup of the microservices system topology,
 
 ---
 
-## 4. Key Architectural Flows
+## 3. Key Architectural Flows
 
 ### A. Real-time Patient Queue Updates
 
@@ -203,7 +197,7 @@ sequenceDiagram
 
 ---
 
-## 5. Security & Isolation Matrix
+## 4. Security & Isolation Matrix
 
 | Component | Security Feature | Implementation Details |
 |---|---|---|
@@ -216,7 +210,7 @@ sequenceDiagram
 
 ---
 
-## 6. Infrastructure & Deployment Setup
+## 5. Infrastructure & Deployment Setup
 
 - **Frontend Hosting**: Deployed to Vercel with automatic builds triggered on pushing to the `main` branch.
 - **Backend API Hosting**: Auth Service and Queue Service are hosted as web services on Render.
