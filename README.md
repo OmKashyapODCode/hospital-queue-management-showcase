@@ -61,7 +61,7 @@ This showcase repository highlights the architectural specifications and databas
 - 📄 [Database Schemas & ERD](./docs/database-schema.md) — Isolated PostgreSQL designs using Prisma.
 - 📄 [API Specifications](./docs/api-specification.md) — RESTful API routing, parameters, and payloads.
 - 📄 [System Design & Failure Modes](./docs/system-design.md) — Fault tolerance, microservice integration, and state consistency.
-- 📄 [Architecture_overview](./docs/architecture_overview.md) — Fault tolerance, microservice integration, and state consistency.
+- 📄 [Architecture_overview](./docs/architecture_overview.md) — High-Level System Architecture ,Microservice Specifications , Real-time Patient Queue Updates, Asynchronous Email Dispatch (RabbitMQ) ,Authentication and Token Rotation Lifecycle
 ---
 
 ## 🔒 Security & CORS Matrix
