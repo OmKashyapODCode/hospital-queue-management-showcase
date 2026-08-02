@@ -6,38 +6,10 @@ A full-stack, production-grade hospital queue management platform built with a m
 
 ---
 
-## 🛠️ Tech Stack & Microservices
 
-The application consists of two decoupled Node.js services communicating asynchronously via a message broker and serving a single-page React client.
 
-### System Architecture
-```
-┌─────────────────────────────────────────────┐
-│               Frontend Client               │
-│          React + Redux + Socket.io          │
-│          (Deployed on Vercel)               │
-└────────────┬──────────────────┬────────────┘
-             │ REST (HTTPS)     │ WebSockets (WSS)
-┌────────────▼──────┐  ┌───────▼────────────┐
-│   Auth Service    │  │   Queue Service    │
-│   Node / Express  │  │   Node / Express   │
-│   Port 5001       │  │   Port 5002        │
-│   Render Hosting  │  │   Render Hosting   │
-└──────┬────────────┘  └──────┬─────────────┘
-       │                      │
-┌──────▼──────────────────────▼─────────────┐
-│            Shared Infrastructure          │
-│  PostgreSQL (Neon)  ·  Redis (Upstash)    │
-│  RabbitMQ (CloudAMQP Broker)              │
-└───────────────────────────────────────────┘
-```
 
-- **Frontend**: React 18, Vite, Redux Toolkit, Socket.io-client, Axios, Tailwind CSS.
-- **Auth Microservice**: Node.js 24, Express 5, Prisma ORM, PostgreSQL, Redis, RabbitMQ.
-- **Queue Microservice**: Node.js 24, Express 5, Socket.io 4, Prisma ORM, PostgreSQL, RabbitMQ.
-- **Infrastructure**: Neon Serverless PostgreSQL (decoupled schemas), Upstash Redis (caching/sessions), CloudAMQP RabbitMQ.
 
----
 
 ## 🚀 Key Architectural Highlights
 
