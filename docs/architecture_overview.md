@@ -10,65 +10,44 @@ The application is structured as a decentralized, event-driven microservices arc
 
 ```mermaid
 graph TB
-    %% Client Tier
-    subgraph Client Tier [Frontend Application]
-        client[React + Redux SPA]
+    %% ================= CLIENT =================
+    subgraph Client["Frontend (React + Redux)"]
+        FE[React SPA]
     end
 
-    %% Routing / Gateway
-    subgraph Hosting / Deployment [Public Gateway]
-        client -- REST (HTTPS) --> authService[Auth Service]
-        client -- REST & WebSockets (WSS) --> queueService[Queue Service]
+    %% ================= SERVICES =================
+    subgraph Services["Backend Microservices"]
+        AUTH[Auth Service]
+        QUEUE[Queue Service]
     end
 
-    %% Services
-    subgraph Microservices [Backend Microservices Node.js 24 / Express 5]
-        authService
-        queueService
+    FE -- REST API --> AUTH
+    FE -- REST API --> QUEUE
+    FE -- WebSocket --> QUEUE
+
+    %% ================= DATABASES =================
+    subgraph Databases["Database per Service"]
+        AUTHDB[(PostgreSQL - Auth DB)]
+        QUEUEDB[(PostgreSQL - Queue DB)]
     end
 
-    %% Verification Client
-    queueService -- "JWT Verification HTTP POST /me" --> authService
+    AUTH -->|Prisma ORM| AUTHDB
+    QUEUE -->|Prisma ORM| QUEUEDB
 
-    %% Shared Databases & Caching
-    subgraph Data & Cache Tier
-        authDB[(Auth DB: PostgreSQL Neon)]
-        queueDB[(Queue DB: PostgreSQL Neon)]
-        redis[(Cache & Session Store: Redis Upstash)]
-    end
+    %% ================= REDIS =================
+    REDIS[(Redis)]
+    AUTH --> REDIS
 
-    authService -- Prisma ORM --> authDB
-    authService -- Cache Reads/Writes --> redis
-    queueService -- Prisma ORM --> queueDB
+    %% ================= RABBITMQ =================
+    RABBIT[RabbitMQ]
 
-    %% Async Broker
-    subgraph Event Broker [Message Queue]
-        rabbitmq{RabbitMQ CloudAMQP}
-    end
+    AUTH -->|Publish Email Job| RABBIT
+    RABBIT -->|Consume Email Job| AUTH
 
-    authService -- "Publish (auth.email queue)" --> rabbitmq
-    queueService -- "Publish (domain events)" --> rabbitmq
-    rabbitmq -- "Consume tasks" --> authService
+    %% ================= EXTERNAL API =================
+    BREVO[Brevo HTTP API]
 
-    %% External Systems
-    subgraph External Systems
-        brevo[Brevo SMTP Email Service]
-    end
-
-    authService -- "Brevo API HTTPS POST" --> brevo
-
-    %% Styling / Color Schemes
-    classDef clientStyle fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff;
-    classDef serviceStyle fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff;
-    classDef dbStyle fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
-    classDef brokerStyle fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#fff;
-    classDef extStyle fill:#ec4899,stroke:#be185d,stroke-width:2px,color:#fff;
-
-    class client clientStyle;
-    class authService,queueService serviceStyle;
-    class authDB,queueDB,redis dbStyle;
-    class rabbitmq brokerStyle;
-    class brevo extStyle;
+    AUTH -->|HTTPS POST| BREVO
 ```
 
 ---
